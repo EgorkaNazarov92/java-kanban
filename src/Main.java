@@ -81,15 +81,18 @@ public class Main {
 					Status status = Status.valueOf(scanner.nextLine().toUpperCase());
 					switch (taskType) {
 						case "task":
-							taskManager.createTask(name, desc, status);
+							Task task = new Task(name, desc, status);
+							taskManager.createTask(task);
 							break;
 						case "epic":
-							taskManager.createEpic(name, desc);
+							Epic epic = new Epic(name, desc);
+							taskManager.createEpic(epic);
 							break;
 						case "subtask":
 							System.out.println("Введите epicId");
 							int epicId = Integer.parseInt(scanner.nextLine());
-							taskManager.createSubTask(name, desc, status, epicId);
+							Subtask subtask = new Subtask(name, desc, status, epicId);
+							taskManager.createSubTask(subtask);
 							break;
 						default:
 							System.out.println("Нет такого типа задач");
@@ -141,7 +144,7 @@ public class Main {
 				case 7:
 					System.out.println("Введите номер эпика");
 					int epicId = Integer.parseInt(scanner.nextLine());
-					ArrayList<Integer> subtasks = taskManager.getSubtasks(epicId);
+					ArrayList<Subtask> subtasks = taskManager.getSubtasks(epicId);
 					System.out.println(subtasks.toString());
 					break;
 				default:
