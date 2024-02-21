@@ -1,3 +1,7 @@
+package tasks;
+
+import status.Status;
+
 import java.util.ArrayList;
 
 public class Epic extends Task {
@@ -14,7 +18,9 @@ public class Epic extends Task {
 	}
 
 	public void addSubTaskId(int subtask) {
-		subTaskIds.add(subtask);
+		if (subtask != super.getId()) {
+			subTaskIds.add(subtask);
+		}
 	}
 
 	public ArrayList<Integer> getSubTaskIds() {
@@ -29,4 +35,12 @@ public class Epic extends Task {
 		subTaskIds = new ArrayList<>();
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o.getClass().equals(Epic.class) && o instanceof Task) {
+			Epic epic = (Epic) o;
+			return super.equals(o) && subTaskIds.equals(epic.subTaskIds);
+		}
+		return false;
+	}
 }

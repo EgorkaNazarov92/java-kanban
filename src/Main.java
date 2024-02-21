@@ -1,3 +1,10 @@
+import manager.Managers;
+import manager.TaskManager;
+import status.Status;
+import tasks.Epic;
+import tasks.Subtask;
+import tasks.Task;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,7 +14,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		System.out.println("Поехали!");
-		TaskManager taskManager = new TaskManager();
+		TaskManager taskManager = Managers.getDefault();
 		while (true) {
 			System.out.println("Что вы хотите выполнить?");
 			printMenu();
@@ -30,7 +37,7 @@ public class Main {
 							}
 							break;
 						case "subtask":
-							ArrayList<Subtask> subtasks = taskManager.getsSubTasks();
+							ArrayList<Subtask> subtasks = taskManager.getSubTasks();
 							for (Subtask subtask : subtasks) {
 								System.out.println(subtask.toString());
 							}
@@ -147,6 +154,9 @@ public class Main {
 					ArrayList<Subtask> subtasks = taskManager.getSubtasks(epicId);
 					System.out.println(subtasks.toString());
 					break;
+				case 8:
+					System.out.println(taskManager.getHistory());
+					break;
 				default:
 					return;
 			}
@@ -161,6 +171,7 @@ public class Main {
 		System.out.println("5. Обновление");
 		System.out.println("6. Удаление по идентификатору");
 		System.out.println("7. Получение списка всех подзадач определённого эпика");
+		System.out.println("8. Посмотреть историю.");
 	}
 
 	public static int getTaskId() {

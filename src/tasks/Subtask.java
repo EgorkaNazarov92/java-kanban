@@ -1,3 +1,7 @@
+package tasks;
+
+import status.Status;
+
 public class Subtask extends Task {
 	private final int epicId;
 
@@ -13,5 +17,14 @@ public class Subtask extends Task {
 
 	public int getEpicId() {
 		return epicId;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o.getClass().equals(Subtask.class) && o instanceof Task) {
+			Subtask subtask = (Subtask) o;
+			return super.equals(o) && epicId == subtask.epicId;
+		}
+		return false;
 	}
 }

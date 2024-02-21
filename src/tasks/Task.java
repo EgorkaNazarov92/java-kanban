@@ -1,3 +1,8 @@
+package tasks;
+import status.Status;
+
+import java.util.Objects;
+
 public class Task {
 	private String name;
 	private String description;
@@ -20,7 +25,7 @@ public class Task {
 
 	@Override
 	public String toString() {
-		return "Task{" +
+		return "tasks.Task{" +
 				"name='" + name + '\'' +
 				", description='" + description + '\'' +
 				", taskId=" + id +
@@ -58,5 +63,15 @@ public class Task {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Task task = (Task) o;
+		return Objects.equals(name, task.name) && Objects.equals(description, task.description)
+				&& id ==task.id && Objects.equals(status, task.status);
 	}
 }
