@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import status.Status;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class SubtaskTest {
 	@Test
 	public void testTwoSubTasksWithSameId() {

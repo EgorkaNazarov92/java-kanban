@@ -3,14 +3,6 @@ package manager;
 import history.HistoryManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import status.Status;
-import tasks.Epic;
-import tasks.Subtask;
-import tasks.Task;
-
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ManagersTest {
 

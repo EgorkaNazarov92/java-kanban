@@ -71,7 +71,7 @@ class InMemoryTaskManagerTest {
 		taskManager.updateTask(tmpTask2);
 		taskManager.getTaskById(task.getId());
 
-		ArrayList<Task> tasks = taskManager.getHistory();;
+		ArrayList<Task> tasks = taskManager.getHistory();
 		assertNotEquals(tasks.get(0), tasks.get(1));
 	}
 }
