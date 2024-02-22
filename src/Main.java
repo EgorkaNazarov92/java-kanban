@@ -5,7 +5,7 @@ import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -25,19 +25,19 @@ public class Main {
 				case 1:
 					switch (taskType) {
 						case "task":
-							ArrayList<Task> tasks = taskManager.getsTasks();
+							List<Task> tasks = taskManager.getsTasks();
 							for (Task task : tasks) {
 								System.out.println(task.toString());
 							}
 							break;
 						case "epic":
-							ArrayList<Epic> epics = taskManager.getsEpics();
+							List<Epic> epics = taskManager.getsEpics();
 							for (Epic epic : epics) {
 								System.out.println(epic.toString());
 							}
 							break;
 						case "subtask":
-							ArrayList<Subtask> subtasks = taskManager.getSubTasks();
+							List<Subtask> subtasks = taskManager.getSubTasks();
 							for (Subtask subtask : subtasks) {
 								System.out.println(subtask.toString());
 							}
@@ -151,7 +151,7 @@ public class Main {
 				case 7:
 					System.out.println("Введите номер эпика");
 					int epicId = Integer.parseInt(scanner.nextLine());
-					ArrayList<Subtask> subtasks = taskManager.getSubtasks(epicId);
+					List<Subtask> subtasks = taskManager.getSubtasks(epicId);
 					System.out.println(subtasks.toString());
 					break;
 				case 8:

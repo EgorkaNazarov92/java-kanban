@@ -8,7 +8,7 @@ import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,7 +27,7 @@ class InMemoryTaskManagerTest {
 		Subtask subtask = new Subtask("Test", "desc", Status.NEW, epic.getId());
 		subtask = taskManager.createSubTask(subtask);
 		Subtask tmpSubtask = new Subtask("Test", "desc", Status.NEW, subtask.getId());
-		tmpSubtask = taskManager.createSubTask(tmpSubtask);
+		taskManager.createSubTask(tmpSubtask);
 		Assertions.assertEquals(1, taskManager.getSubTasks().size());
 	}
 
@@ -71,7 +71,7 @@ class InMemoryTaskManagerTest {
 		taskManager.updateTask(tmpTask2);
 		taskManager.getTaskById(task.getId());
 
-		ArrayList<Task> tasks = taskManager.getHistory();
+		List<Task> tasks = taskManager.getHistory();
 		assertNotEquals(tasks.get(0), tasks.get(1));
 	}
 }
