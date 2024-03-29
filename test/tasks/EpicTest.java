@@ -12,6 +12,7 @@ class EpicTest {
 		epic2.addSubTaskId(2);
 		Assertions.assertEquals(epic, epic2);
 	}
+
 	@Test
 	public void testAddSubtaskToEpicWithSameId() {
 		Epic epic = new Epic("Test", "desc", 1);
