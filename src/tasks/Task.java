@@ -1,6 +1,5 @@
 package tasks;
 import status.Status;
-
 import java.util.Objects;
 
 public class Task {
@@ -8,12 +7,14 @@ public class Task {
 	private String description;
 	private int id;
 	private Status status;
+	private TaskTypes type;
 
 	public Task(String name, String description, Status status, int id) {
 		this.name = name;
 		this.description = description;
 		this.id = id;
 		this.status = status;
+		this.type = TaskTypes.TASK;
 	}
 
 	public Task(String name, String description, Status status) {
@@ -21,16 +22,12 @@ public class Task {
 		this.description = description;
 		this.id = 0;
 		this.status = status;
+		this.type = TaskTypes.TASK;
 	}
 
 	@Override
 	public String toString() {
-		return "tasks.Task{" +
-				"name='" + name + '\'' +
-				", description='" + description + '\'' +
-				", taskId=" + id +
-				", status=" + status +
-				'}';
+		return String.format("%d,%s,%s,%s,%s", id, type, name, status, description);
 	}
 
 	public void setStatus(Status status) {
@@ -63,6 +60,14 @@ public class Task {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public TaskTypes getType() {
+		return type;
+	}
+
+	public void setType(TaskTypes type) {
+		this.type = type;
 	}
 
 
