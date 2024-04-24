@@ -13,16 +13,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-	Path pathDir = Paths.get("resources");
-	Path pathFile = Paths.get("resources/file.csv");
+	Path pathDir;
+	Path pathFile;
 
 	public FileBackedTaskManager() {
 		super();
+		pathDir = Paths.get("resources");
+		pathFile = Paths.get("resources/file.csv");
 		if (!pathDir.toFile().isDirectory()) {
 			try {
 				Files.createDirectory(pathDir);
 			} catch (IOException e) {
-				throw new ManagerSaveException(e.getMessage());
+				throw new ManagerSaveException("Ошибка создания директории: " + e.getMessage());
 			}
 		}
 		File file = pathFile.toFile();
@@ -30,7 +32,29 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 			try {
 				Files.createFile(pathFile);
 			} catch (IOException e) {
-				throw new ManagerSaveException(e.getMessage());
+				throw new ManagerSaveException("Ошибка создания файла: " + e.getMessage());
+			}
+		}
+		loadFromFile(file);
+	}
+
+	public FileBackedTaskManager(String dir, String fileName) {
+		super();
+		pathDir = Paths.get(dir);
+		pathFile = Paths.get(dir + "/" + fileName);
+		if (!pathDir.toFile().isDirectory()) {
+			try {
+				Files.createDirectory(pathDir);
+			} catch (IOException e) {
+				throw new ManagerSaveException("Ошибка создания директории: " + e.getMessage());
+			}
+		}
+		File file = pathFile.toFile();
+		if (!pathFile.toFile().isFile()) {
+			try {
+				Files.createFile(pathFile);
+			} catch (IOException e) {
+				throw new ManagerSaveException("Ошибка создания файла: " + e.getMessage());
 			}
 		}
 		loadFromFile(file);
@@ -221,7 +245,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 			}
 			br.close();
 		} catch (IOException e) {
-			throw new ManagerSaveException(e.getMessage());
+			throw new ManagerSaveException("Ошибка вычитки файла: " + e.getMessage());
 		}
 	}
 }
