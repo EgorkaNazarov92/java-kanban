@@ -5,6 +5,7 @@ import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,9 +13,9 @@ public class Main {
 
 	static Scanner scanner = new Scanner(System.in);
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		System.out.println("Поехали!");
-		TaskManager taskManager = Managers.getDefault();
+		TaskManager taskManager = Managers.getFileBackedTaskManager();
 		while (true) {
 			System.out.println("Что вы хотите выполнить?");
 			printMenu();

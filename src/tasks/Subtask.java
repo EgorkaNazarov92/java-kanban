@@ -8,11 +8,13 @@ public class Subtask extends Task {
 	public Subtask(String name, String description, Status status, int id, int epicId) {
 		super(name, description, status, id);
 		this.epicId = epicId;
+		this.setType(TaskTypes.SUBTASK);
 	}
 
 	public Subtask(String name, String description, Status status, int epicId) {
 		super(name, description, status);
 		this.epicId = epicId;
+		this.setType(TaskTypes.SUBTASK);
 	}
 
 	public int getEpicId() {
@@ -26,5 +28,11 @@ public class Subtask extends Task {
 			return super.equals(o) && epicId == subtask.epicId;
 		}
 		return false;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%d,%s,%s,%s,%s,%d", super.getId(), super.getType(), super.getName(), super.getStatus(),
+				super.getDescription(), epicId);
 	}
 }

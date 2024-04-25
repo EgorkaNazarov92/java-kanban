@@ -10,11 +10,13 @@ public class Epic extends Task {
 	public Epic(String name, String description, int id) {
 		super(name, description, Status.NEW, id);
 		this.subTaskIds = new ArrayList<>();
+		this.setType(TaskTypes.EPIC);
 	}
 
 	public Epic(String name, String description) {
 		super(name, description, Status.NEW);
 		this.subTaskIds = new ArrayList<>();
+		this.setType(TaskTypes.EPIC);
 	}
 
 	public void addSubTaskId(int subtask) {
@@ -42,5 +44,11 @@ public class Epic extends Task {
 			return super.equals(o) && subTaskIds.equals(epic.subTaskIds);
 		}
 		return false;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%d,%s,%s,%s,%s", super.getId(), super.getType(), super.getName(), super.getStatus(),
+				super.getDescription());
 	}
 }

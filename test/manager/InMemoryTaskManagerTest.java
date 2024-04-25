@@ -10,6 +10,7 @@ import tasks.Task;
 
 import java.util.List;
 
+import static manager.Managers.getDefault;
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryTaskManagerTest {
@@ -17,7 +18,7 @@ class InMemoryTaskManagerTest {
 
 	@BeforeEach
 	void beforeEach() {
-		taskManager = new InMemoryTaskManager();
+		taskManager = getDefault();
 	}
 
 	@Test
@@ -117,7 +118,6 @@ class InMemoryTaskManagerTest {
 
 	@Test
 	public void testClearSubtaskIds() {
-		List<Task> history = taskManager.getHistory();
 		Epic epic = new Epic("Test", "desc");
 		epic = taskManager.createEpic(epic);
 		Subtask subtask1 = new Subtask("Sub", "subdesc", Status.IN_PROGRESS, epic.getId());
@@ -130,7 +130,7 @@ class InMemoryTaskManagerTest {
 		taskManager.getSubTaskById(subtask2.getId());
 		taskManager.getSubTaskById(subtask3.getId());
 		taskManager.getEpicById(epic.getId());
-		history = taskManager.getHistory();
+		List<Task> history = taskManager.getHistory();
 		assertEquals(4, history.size());
 
 		List<Integer> epicSubTasks = epic.getSubTaskIds();
