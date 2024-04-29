@@ -2,7 +2,6 @@ package manager;
 
 import exception.ManagerSaveException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import status.Status;
 import tasks.Epic;
@@ -15,7 +14,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import static manager.Managers.getDefault;
 import static manager.Managers.getFileBackedTaskManager;
 
 public class FileBackedTaskManagerTest extends  TaskManagerTest<FileBackedTaskManager> {

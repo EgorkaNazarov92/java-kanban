@@ -36,7 +36,6 @@ public class Task {
 		this.id = id;
 		this.status = status;
 		this.type = TaskTypes.TASK;
-		this.description = description;
 		this.startTime = startTime;
 		this.duration = duration;
 	}
@@ -111,10 +110,6 @@ public class Task {
 		Task task = (Task) o;
 		return Objects.equals(name, task.name) && Objects.equals(description, task.description)
 				&& id == task.id && Objects.equals(status, task.status);
-	}
-
-	public int getDuration() {
-		return duration;
 	}
 
 	public void setDuration(int duration) {

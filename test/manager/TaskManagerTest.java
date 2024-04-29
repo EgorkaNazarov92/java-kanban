@@ -6,10 +6,8 @@ import status.Status;
 import tasks.Epic;
 import tasks.Subtask;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 
-import static java.time.Duration.*;
 
 public abstract class TaskManagerTest<T extends TaskManager> {
 	protected TaskManager taskManager;
