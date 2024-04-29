@@ -2,6 +2,7 @@ package manager;
 
 import exception.ManagerSaveException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import status.Status;
 import tasks.Epic;
@@ -14,12 +15,22 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import static manager.Managers.getDefault;
 import static manager.Managers.getFileBackedTaskManager;
 
-public class FileBackedTaskManagerTest {
+public class FileBackedTaskManagerTest extends  TaskManagerTest<FileBackedTaskManager> {
 	Path pathDir = Paths.get("resources");
 	Path pathFile = Paths.get("resources/file.csv");
-	private TaskManager taskManager;
+
+	@Override
+	public void testStatusAndTimeEpic() {
+		try {
+			Files.deleteIfExists(pathFile);
+			super.testStatusAndTimeEpic();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	@Test
 	public void createEmptyFileTest() {
@@ -77,10 +88,10 @@ public class FileBackedTaskManagerTest {
 			Files.deleteIfExists(pathFile);
 			Files.createFile(pathFile);
 			try (Writer writer = new FileWriter(pathFile.toFile())) {
-				writer.write("id,type,name,status,description,epic\n");
-				writer.write("1,TASK,New Task,DONE,New Task Desc\n");
-				writer.write("2,EPIC,New Epic,NEW, New Epic Desc\n");
-				writer.write("3,SUBTASK,New Subtask,NEW,New sub desc,2\n");
+				writer.write("id,type,name,status,description,startTime,endTime,epic\n");
+				writer.write("1,TASK,New Task,DONE,New Task Desc,null,null\n");
+				writer.write("2,EPIC,New Epic,NEW, New Epic Desc,null,null\n");
+				writer.write("3,SUBTASK,New Subtask,NEW,New sub desc,null,null,2\n");
 				writer.write("3,1");
 			}
 			taskManager = getFileBackedTaskManager();

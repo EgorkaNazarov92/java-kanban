@@ -7,14 +7,14 @@ import status.Status;
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
+import tasks.TaskTypes;
 
 import java.util.List;
 
 import static manager.Managers.getDefault;
 import static org.junit.jupiter.api.Assertions.*;
 
-class InMemoryTaskManagerTest {
-	private TaskManager taskManager;
+class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
 
 	@BeforeEach
 	void beforeEach() {
@@ -166,5 +166,48 @@ class InMemoryTaskManagerTest {
 		history = taskManager.getHistory();
 		assertEquals(history.getFirst(), task);
 		assertEquals(1, history.size());
+	}
+
+	@Test
+	public void testEpicStatusNew() {
+		Epic epic = new Epic("Test", "desc");
+		epic = taskManager.createEpic(epic);
+		taskManager.createSubTask(new Subtask("sub1", "desc1", Status.NEW, epic.getId()));
+		taskManager.createSubTask(new Subtask("sub2", "desc2", Status.NEW, epic.getId()));
+		taskManager.createSubTask(new Subtask("sub3", "desc3", Status.NEW, epic.getId()));
+		Assertions.assertEquals(3, taskManager.getSubTasks().size());
+		Assertions.assertEquals(Status.NEW, taskManager.getEpicById(epic.getId()).getStatus());
+	}
+
+	@Test
+	public void testEpicStatusDone() {
+		Epic epic = new Epic("Test", "desc");
+		epic = taskManager.createEpic(epic);
+		taskManager.createSubTask(new Subtask("sub1", "desc1", Status.DONE, epic.getId()));
+		taskManager.createSubTask(new Subtask("sub2", "desc2", Status.DONE, epic.getId()));
+		taskManager.createSubTask(new Subtask("sub3", "desc3", Status.DONE, epic.getId()));
+		Assertions.assertEquals(3, taskManager.getSubTasks().size());
+		Assertions.assertEquals(Status.DONE, taskManager.getEpicById(epic.getId()).getStatus());
+	}
+
+	@Test
+	public void testEpicStatusInProgress() {
+		Epic epic = new Epic("Test", "desc");
+		epic = taskManager.createEpic(epic);
+		taskManager.createSubTask(new Subtask("sub1", "desc1", Status.IN_PROGRESS, epic.getId()));
+		taskManager.createSubTask(new Subtask("sub2", "desc2", Status.IN_PROGRESS, epic.getId()));
+		taskManager.createSubTask(new Subtask("sub3", "desc3", Status.IN_PROGRESS, epic.getId()));
+		Assertions.assertEquals(3, taskManager.getSubTasks().size());
+		Assertions.assertEquals(Status.IN_PROGRESS, taskManager.getEpicById(epic.getId()).getStatus());
+	}
+
+	@Test
+	public void testEpicStatus() {
+		Epic epic = new Epic("Test", "desc");
+		epic = taskManager.createEpic(epic);
+		taskManager.createSubTask(new Subtask("sub1", "desc1", Status.NEW, epic.getId()));
+		taskManager.createSubTask(new Subtask("sub2", "desc2", Status.DONE, epic.getId()));
+		Assertions.assertEquals(2, taskManager.getSubTasks().size());
+		Assertions.assertEquals(Status.IN_PROGRESS, taskManager.getEpicById(epic.getId()).getStatus());
 	}
 }

@@ -1,5 +1,8 @@
 package tasks;
 import status.Status;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -8,6 +11,8 @@ public class Task {
 	private int id;
 	private Status status;
 	private TaskTypes type;
+	private int duration;
+	private LocalDateTime startTime;
 
 	public Task(String name, String description, Status status, int id) {
 		this.name = name;
@@ -25,9 +30,32 @@ public class Task {
 		this.type = TaskTypes.TASK;
 	}
 
+	public Task(String name, String description, Status status, int id, LocalDateTime startTime, int duration) {
+		this.name = name;
+		this.description = description;
+		this.id = id;
+		this.status = status;
+		this.type = TaskTypes.TASK;
+		this.description = description;
+		this.startTime = startTime;
+		this.duration = duration;
+	}
+
+	public Task(String name, String description, Status status, LocalDateTime startTime, int duration) {
+		this.name = name;
+		this.description = description;
+		this.id = 0;
+		this.status = status;
+		this.type = TaskTypes.TASK;
+		this.startTime = startTime;
+		this.duration = duration;
+	}
+
+
 	@Override
 	public String toString() {
-		return String.format("%d,%s,%s,%s,%s", id, type, name, status, description);
+		return String.format("%d,%s,%s,%s,%s,%s,%s", id, type, name, status, description,
+				startTime, getEndTime());
 	}
 
 	public void setStatus(Status status) {
@@ -70,6 +98,11 @@ public class Task {
 		this.type = type;
 	}
 
+	public LocalDateTime getEndTime() {
+		if (startTime == null) return null;
+		return startTime.plus(Duration.ofMinutes(duration));
+	}
+
 
 	@Override
 	public boolean equals(Object o) {
@@ -78,5 +111,21 @@ public class Task {
 		Task task = (Task) o;
 		return Objects.equals(name, task.name) && Objects.equals(description, task.description)
 				&& id == task.id && Objects.equals(status, task.status);
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
+	public LocalDateTime getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(LocalDateTime startTime) {
+		this.startTime = startTime;
 	}
 }
