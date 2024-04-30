@@ -121,12 +121,12 @@ public class Main {
 					System.out.println("Статус:");
 					Status newStatus = Status.valueOf(scanner.nextLine().toUpperCase());
 					System.out.println("StartTime:");
-					LocalDateTime uodStartTime = LocalDateTime.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+					LocalDateTime updStartTime = LocalDateTime.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
 					System.out.println("Duration:");
 					int updDuration = Integer.parseInt(scanner.nextLine());
 					switch (taskType) {
 						case "task":
-							Task task = new Task(newName, newDesc, newStatus, taskId, uodStartTime, updDuration);
+							Task task = new Task(newName, newDesc, newStatus, taskId, updStartTime, updDuration);
 							taskManager.updateTask(task);
 							break;
 						case "epic":
@@ -136,7 +136,7 @@ public class Main {
 						case "subtask":
 							System.out.println("Введите epicId:");
 							int epicId = Integer.parseInt(scanner.nextLine());
-							Subtask subtask = new Subtask(newName, newDesc, newStatus, taskId, uodStartTime, updDuration, epicId);
+							Subtask subtask = new Subtask(newName, newDesc, newStatus, taskId, updStartTime, updDuration, epicId);
 							taskManager.updateSubTask(subtask);
 							break;
 						default:

@@ -279,7 +279,7 @@ public class InMemoryTaskManager implements TaskManager {
 	}
 
 	protected void updateTaskToPrioritizedTasks(Task task) {
-		prioritizedTasks.remove(task);
+		prioritizedTasks.removeIf(prioritizedTask -> prioritizedTask.getId() == task.getId());
 		if (task.getStartTime() != null) prioritizedTasks.add(task);
 	}
 
