@@ -11,7 +11,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
@@ -163,7 +162,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 			Files.deleteIfExists(pathFile);
 			Files.createFile(pathFile);
 			try (Writer writer = new FileWriter(pathFile.toFile())) {
-				writer.write("id,type,name,status,description,startTime,endTime,epic\n");
+				writer.write("id,type,name,status,description,startTime,endTime,duration,epic\n");
 				for (Task task : tasks.values()) writer.write(task.toString() + "\n");
 				for (Epic epic : epics.values()) writer.write(epic.toString() + "\n");
 				for (Subtask subtask : subtasks.values()) writer.write(subtask.toString() + "\n");
@@ -188,12 +187,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 		String endTimeStr = split[6];
 		LocalDateTime endTime = null;
 		if (!endTimeStr.equals("null")) endTime = LocalDateTime.parse(endTimeStr);
-		int duration = 0;
-		if (endTime != null && startTime != null) duration = (int) Duration.between(startTime, endTime).toMinutes();
+		int duration = Integer.parseInt(split[7]);
 		switch (type) {
 			case TASK -> task = new Task(name, desc, status, id, startTime, duration);
 			case EPIC -> task = new Epic(name, desc, id);
-			case SUBTASK -> task = new Subtask(name, desc, status, id, startTime, duration, Integer.parseInt(split[7]));
+			case SUBTASK -> task = new Subtask(name, desc, status, id, startTime, duration, Integer.parseInt(split[8]));
 		}
 		return task;
 	}
@@ -231,6 +229,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 					switch (task.getType()) {
 						case TASK:
 							super.tasks.put(taskId, task);
+							super.addTaskToPrioritizedTasks(task);
 							break;
 						case EPIC:
 							super.epics.put(taskId, (Epic) task);
@@ -244,6 +243,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 								break;
 							}
 							super.subtasks.put(taskId, subtask);
+							super.addTaskToPrioritizedTasks(subtask);
 							epic.addSubTaskId(taskId);
 							super.updateEpicFields(epic);
 							break;

@@ -48,8 +48,8 @@ public class Subtask extends Task {
 
 	@Override
 	public String toString() {
-		return String.format("%d,%s,%s,%s,%s,%s,%s,%d", super.getId(), super.getType(), super.getName(),
+		return String.format("%d,%s,%s,%s,%s,%s,%s,%d,%d", super.getId(), super.getType(), super.getName(),
 				super.getStatus(), super.getDescription(), getStartTime(),
-				getEndTime(), epicId);
+				getEndTime(), getDuration(), epicId);
 	}
 }

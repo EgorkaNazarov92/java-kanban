@@ -53,8 +53,8 @@ public class Task {
 
 	@Override
 	public String toString() {
-		return String.format("%d,%s,%s,%s,%s,%s,%s", id, type, name, status, description,
-				startTime, getEndTime());
+		return String.format("%d,%s,%s,%s,%s,%s,%s,%d", id, type, name, status, description,
+				startTime, getEndTime(), duration);
 	}
 
 	public void setStatus(Status status) {
@@ -123,4 +123,9 @@ public class Task {
 	public void setStartTime(LocalDateTime startTime) {
 		this.startTime = startTime;
 	}
+
+	public int getDuration() {
+		return duration;
+	}
+
 }

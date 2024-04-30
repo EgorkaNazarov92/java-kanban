@@ -50,8 +50,8 @@ public class Epic extends Task {
 
 	@Override
 	public String toString() {
-		return String.format("%d,%s,%s,%s,%s,%s,%s", super.getId(), super.getType(), super.getName(), super.getStatus(),
-				super.getDescription(), getStartTime(), getEndTime());
+		return String.format("%d,%s,%s,%s,%s,%s,%s,%d", super.getId(), super.getType(), super.getName(), super.getStatus(),
+				super.getDescription(), getStartTime(), getEndTime(), getDuration());
 	}
 
 	@Override

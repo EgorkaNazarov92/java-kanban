@@ -86,10 +86,10 @@ public class FileBackedTaskManagerTest extends  TaskManagerTest<FileBackedTaskMa
 			Files.deleteIfExists(pathFile);
 			Files.createFile(pathFile);
 			try (Writer writer = new FileWriter(pathFile.toFile())) {
-				writer.write("id,type,name,status,description,startTime,endTime,epic\n");
-				writer.write("1,TASK,New Task,DONE,New Task Desc,null,null\n");
-				writer.write("2,EPIC,New Epic,NEW, New Epic Desc,null,null\n");
-				writer.write("3,SUBTASK,New Subtask,NEW,New sub desc,null,null,2\n");
+				writer.write("id,type,name,status,description,startTime,endTime,duration,epic\n");
+				writer.write("1,TASK,New Task,DONE,New Task Desc,null,null,0\n");
+				writer.write("2,EPIC,New Epic,NEW, New Epic Desc,null,null,0\n");
+				writer.write("3,SUBTASK,New Subtask,NEW,New sub desc,null,null,0,2\n");
 				writer.write("3,1");
 			}
 			taskManager = getFileBackedTaskManager();
