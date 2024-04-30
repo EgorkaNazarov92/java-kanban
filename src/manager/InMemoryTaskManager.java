@@ -199,7 +199,7 @@ public class InMemoryTaskManager implements TaskManager {
 		int taskId = task.getId();
 		if (tasks.containsKey(taskId)) {
 			tasks.put(taskId, task);
-			addTaskToPrioritizedTasks(task);
+			updateTaskToPrioritizedTasks(task);
 		} else System.out.println("Нет такого task");
 	}
 
@@ -222,7 +222,7 @@ public class InMemoryTaskManager implements TaskManager {
 			if (epics.containsKey(subtask.getEpicId()) && (subtask.getEpicId() == tmpSubTask.getEpicId())) {
 				Epic epic = epics.get(tmpSubTask.getEpicId());
 				subtasks.put(subTaskId, subtask);
-				addTaskToPrioritizedTasks(subtask);
+				updateTaskToPrioritizedTasks(subtask);
 				updateEpicFields(epic);
 			} else System.out.println("Неверно указан tasks.Epic");
 		} else System.out.println("Нет такого subtask");
@@ -275,6 +275,11 @@ public class InMemoryTaskManager implements TaskManager {
 	}
 
 	protected void addTaskToPrioritizedTasks(Task task) {
+		if (task.getStartTime() != null) prioritizedTasks.add(task);
+	}
+
+	protected void updateTaskToPrioritizedTasks(Task task) {
+		prioritizedTasks.remove(task);
 		if (task.getStartTime() != null) prioritizedTasks.add(task);
 	}
 
