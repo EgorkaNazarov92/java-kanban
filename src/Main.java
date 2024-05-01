@@ -5,7 +5,8 @@ import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 
-import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,7 +14,7 @@ public class Main {
 
 	static Scanner scanner = new Scanner(System.in);
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		System.out.println("Поехали!");
 		TaskManager taskManager = Managers.getFileBackedTaskManager();
 		while (true) {
@@ -85,11 +86,15 @@ public class Main {
 					String name = scanner.nextLine();
 					System.out.println("Описание:");
 					String desc = scanner.nextLine();
-					System.out.println("Статуы:");
+					System.out.println("Статуc:");
 					Status status = Status.valueOf(scanner.nextLine().toUpperCase());
+					System.out.println("StartTime:");
+					LocalDateTime startTime = LocalDateTime.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+					System.out.println("Duration:");
+					int duration = Integer.parseInt(scanner.nextLine());
 					switch (taskType) {
 						case "task":
-							Task task = new Task(name, desc, status);
+							Task task = new Task(name, desc, status, startTime, duration);
 							taskManager.createTask(task);
 							break;
 						case "epic":
@@ -99,7 +104,7 @@ public class Main {
 						case "subtask":
 							System.out.println("Введите epicId");
 							int epicId = Integer.parseInt(scanner.nextLine());
-							Subtask subtask = new Subtask(name, desc, status, epicId);
+							Subtask subtask = new Subtask(name, desc, status, startTime, duration, epicId);
 							taskManager.createSubTask(subtask);
 							break;
 						default:
@@ -115,9 +120,13 @@ public class Main {
 					String newDesc = scanner.nextLine();
 					System.out.println("Статус:");
 					Status newStatus = Status.valueOf(scanner.nextLine().toUpperCase());
+					System.out.println("StartTime:");
+					LocalDateTime updStartTime = LocalDateTime.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+					System.out.println("Duration:");
+					int updDuration = Integer.parseInt(scanner.nextLine());
 					switch (taskType) {
 						case "task":
-							Task task = new Task(newName, newDesc, newStatus, taskId);
+							Task task = new Task(newName, newDesc, newStatus, taskId, updStartTime, updDuration);
 							taskManager.updateTask(task);
 							break;
 						case "epic":
@@ -127,7 +136,7 @@ public class Main {
 						case "subtask":
 							System.out.println("Введите epicId:");
 							int epicId = Integer.parseInt(scanner.nextLine());
-							Subtask subtask = new Subtask(newName, newDesc, newStatus, taskId, epicId);
+							Subtask subtask = new Subtask(newName, newDesc, newStatus, taskId, updStartTime, updDuration, epicId);
 							taskManager.updateSubTask(subtask);
 							break;
 						default:
@@ -158,6 +167,9 @@ public class Main {
 				case 8:
 					System.out.println(taskManager.getHistory());
 					break;
+				case 9:
+					System.out.println(taskManager.getPrioritizedTasks());
+					break;
 				default:
 					return;
 			}
@@ -173,6 +185,7 @@ public class Main {
 		System.out.println("6. Удаление по идентификатору");
 		System.out.println("7. Получение списка всех подзадач определённого эпика");
 		System.out.println("8. Посмотреть историю.");
+		System.out.println("9. Посмотреть отсортированный список");
 	}
 
 	public static int getTaskId() {

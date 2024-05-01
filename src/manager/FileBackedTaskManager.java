@@ -11,6 +11,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 	Path pathDir;
@@ -161,7 +162,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 			Files.deleteIfExists(pathFile);
 			Files.createFile(pathFile);
 			try (Writer writer = new FileWriter(pathFile.toFile())) {
-				writer.write("id,type,name,status,description,epic\n");
+				writer.write("id,type,name,status,description,startTime,endTime,duration,epic\n");
 				for (Task task : tasks.values()) writer.write(task.toString() + "\n");
 				for (Epic epic : epics.values()) writer.write(epic.toString() + "\n");
 				for (Subtask subtask : subtasks.values()) writer.write(subtask.toString() + "\n");
@@ -180,10 +181,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 		String name = split[2];
 		Status status = Status.valueOf(split[3]);
 		String desc = split[4];
+		String  startTimeStr = split[5];
+		LocalDateTime startTime = null;
+		if (!startTimeStr.equals("null")) startTime = LocalDateTime.parse(startTimeStr);
+		String endTimeStr = split[6];
+		LocalDateTime endTime = null;
+		if (!endTimeStr.equals("null")) endTime = LocalDateTime.parse(endTimeStr);
+		int duration = Integer.parseInt(split[7]);
 		switch (type) {
-			case TASK -> task = new Task(name, desc, status, id);
+			case TASK -> task = new Task(name, desc, status, id, startTime, duration);
 			case EPIC -> task = new Epic(name, desc, id);
-			case SUBTASK -> task = new Subtask(name, desc, status, id, Integer.parseInt(split[5]));
+			case SUBTASK -> task = new Subtask(name, desc, status, id, startTime, duration, Integer.parseInt(split[8]));
 		}
 		return task;
 	}
@@ -221,6 +229,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 					switch (task.getType()) {
 						case TASK:
 							super.tasks.put(taskId, task);
+							super.addTaskToPrioritizedTasks(task);
 							break;
 						case EPIC:
 							super.epics.put(taskId, (Epic) task);
@@ -234,8 +243,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 								break;
 							}
 							super.subtasks.put(taskId, subtask);
+							super.addTaskToPrioritizedTasks(subtask);
 							epic.addSubTaskId(taskId);
-							super.updateEpicStatus(epic);
+							super.updateEpicFields(epic);
 							break;
 					}
 					if (super.taskId <= taskId) super.taskId = ++taskId;
