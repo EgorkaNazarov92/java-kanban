@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 	Path pathDir;
@@ -239,8 +240,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 							int epicId = subtask.getEpicId();
 							Epic epic = super.epics.get(epicId);
 							if (epic == null) {
-								System.out.println("Нет такого tasks.Epic");
-								break;
+								throw new NoSuchElementException();
 							}
 							super.subtasks.put(taskId, subtask);
 							super.addTaskToPrioritizedTasks(subtask);

@@ -54,8 +54,7 @@ public class InMemoryTaskManager implements TaskManager {
 		int epicId = subtask.getEpicId();
 		Epic epic = epics.get(epicId);
 		if (epic == null) {
-			System.out.println("Нет такого tasks.Epic");
-			return null;
+			throw new NoSuchElementException();
 		}
 		int subtaskId = getTaskId();
 		subtask.setId(subtaskId);

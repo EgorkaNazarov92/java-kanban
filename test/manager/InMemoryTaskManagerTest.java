@@ -9,6 +9,7 @@ import tasks.Subtask;
 import tasks.Task;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static manager.Managers.getDefault;
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,7 +28,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
 		Subtask subtask = new Subtask("Test", "desc", Status.NEW, epic.getId());
 		subtask = taskManager.createSubTask(subtask);
 		Subtask tmpSubtask = new Subtask("Test", "desc", Status.NEW, subtask.getId());
-		taskManager.createSubTask(tmpSubtask);
+		assertThrows(NoSuchElementException.class, () -> {taskManager.createSubTask(tmpSubtask);});
 		Assertions.assertEquals(1, taskManager.getSubTasks().size());
 	}
 
