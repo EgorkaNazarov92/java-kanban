@@ -1,8 +1,10 @@
 package tasks;
 
+import com.google.gson.reflect.TypeToken;
 import status.Status;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Subtask extends Task {
 	private final int epicId;
@@ -51,5 +53,9 @@ public class Subtask extends Task {
 		return String.format("%d,%s,%s,%s,%s,%s,%s,%d,%d", super.getId(), super.getType(), super.getName(),
 				super.getStatus(), super.getDescription(), getStartTime(),
 				getEndTime(), getDuration(), epicId);
+	}
+
+	public static class SubtaskListTypeToken extends TypeToken<List<Subtask>> {
+
 	}
 }

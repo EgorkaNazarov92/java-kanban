@@ -1,8 +1,10 @@
 package tasks;
+import com.google.gson.reflect.TypeToken;
 import status.Status;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 public class Task {
@@ -128,4 +130,8 @@ public class Task {
 		return duration;
 	}
 
+
+	public static class TaskListTypeToken extends TypeToken<List<Task>> {
+
+	}
 }

@@ -14,9 +14,9 @@ public interface TaskManager {
 
 	Subtask createSubTask(Subtask subtask);
 
-	List<Task> getsTasks();
+	List<Task> getTasks();
 
-	List<Epic> getsEpics();
+	List<Epic> getEpics();
 
 	List<Subtask> getSubTasks();
 

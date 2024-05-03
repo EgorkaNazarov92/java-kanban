@@ -1,9 +1,11 @@
 package tasks;
 
+import com.google.gson.reflect.TypeToken;
 import status.Status;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Epic extends Task {
 	private ArrayList<Integer> subTaskIds;
@@ -61,5 +63,9 @@ public class Epic extends Task {
 
 	public void setEndTime(LocalDateTime endTime) {
 		this.endTime = endTime;
+	}
+
+	public static class EpicListTypeToken extends TypeToken<List<Epic>> {
+
 	}
 }

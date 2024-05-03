@@ -67,12 +67,12 @@ public class InMemoryTaskManager implements TaskManager {
 	}
 
 	@Override
-	public ArrayList<Task> getsTasks() {
+	public ArrayList<Task> getTasks() {
 		return new ArrayList<>(tasks.values());
 	}
 
 	@Override
-	public ArrayList<Epic> getsEpics() {
+	public ArrayList<Epic> getEpics() {
 		return new ArrayList<>(epics.values());
 	}
 
@@ -116,6 +116,9 @@ public class InMemoryTaskManager implements TaskManager {
 	@Override
 	public Task getTaskById(int taskId) {
 		Task task = tasks.get(taskId);
+		if (task == null) {
+			throw new NoSuchElementException();
+		}
 		historyManager.add(task);
 		return task;
 	}
@@ -123,6 +126,9 @@ public class InMemoryTaskManager implements TaskManager {
 	@Override
 	public Epic getEpicById(int epicId) {
 		Epic epic = epics.get(epicId);
+		if (epic == null) {
+			throw new NoSuchElementException();
+		}
 		historyManager.add(epic);
 		return epic;
 	}
@@ -130,13 +136,20 @@ public class InMemoryTaskManager implements TaskManager {
 	@Override
 	public Subtask getSubTaskById(int subTaskId) {
 		Subtask subtask = subtasks.get(subTaskId);
+		if (subtask == null) {
+			throw new NoSuchElementException();
+		}
 		historyManager.add(subtask);
 		return subtask;
 	}
 
 	@Override
 	public void deleteTaskById(int taskId) {
-		prioritizedTasks.remove(tasks.get(taskId));
+		Task task = tasks.get(taskId);
+		if (task == null) {
+			throw new NoSuchElementException();
+		}
+		prioritizedTasks.remove(task);
 		tasks.remove(taskId);
 		historyManager.remove(taskId);
 	}
@@ -145,8 +158,7 @@ public class InMemoryTaskManager implements TaskManager {
 	public void deleteEpicById(int epicId) {
 		Epic epic = epics.get(epicId);
 		if (epic == null) {
-			System.out.println("Нет такого epic");
-			return;
+			throw new NoSuchElementException();
 		}
 		ArrayList<Integer> tmpSubtasks = epic.getSubTaskIds();
 		epics.remove(epicId);
@@ -162,14 +174,12 @@ public class InMemoryTaskManager implements TaskManager {
 	public void deleteSubTaskById(int subTaskId) {
 		Subtask subtask = subtasks.get(subTaskId);
 		if (subtask == null) {
-			System.out.println("Нет такого subtask");
-			return;
+			throw new NoSuchElementException();
 		}
 		int epicId = subtask.getEpicId();
 		Epic epic = epics.get(epicId);
 		if (epic == null) {
-			System.out.println("Нет такого эпика");
-			return;
+			throw new NoSuchElementException();
 		}
 		epic.deleteSubtaskId(subTaskId);
 		prioritizedTasks.remove(subtask);
@@ -183,8 +193,7 @@ public class InMemoryTaskManager implements TaskManager {
 		ArrayList<Subtask> epicSubTasks = new ArrayList<>();
 		Epic epic = epics.get(epicId);
 		if (epic == null) {
-			System.out.println("Нет такого эпика");
-			return null;
+			throw new NoSuchElementException();
 		}
 		ArrayList<Integer> epicSubTaskIds = epic.getSubTaskIds();
 		for (int subId : epicSubTaskIds) {
@@ -200,7 +209,7 @@ public class InMemoryTaskManager implements TaskManager {
 		if (tasks.containsKey(taskId)) {
 			tasks.put(taskId, task);
 			updateTaskToPrioritizedTasks(task);
-		} else System.out.println("Нет такого task");
+		} else throw new NoSuchElementException();
 	}
 
 	@Override
@@ -210,7 +219,7 @@ public class InMemoryTaskManager implements TaskManager {
 			Epic tmpEpic = epics.get(epicId);
 			tmpEpic.setName(epic.getName());
 			tmpEpic.setDescription(epic.getDescription());
-		} else System.out.println("Нет такого эпика");
+		} else throw new NoSuchElementException();
 	}
 
 	@Override
@@ -224,8 +233,8 @@ public class InMemoryTaskManager implements TaskManager {
 				subtasks.put(subTaskId, subtask);
 				updateTaskToPrioritizedTasks(subtask);
 				updateEpicFields(epic);
-			} else System.out.println("Неверно указан tasks.Epic");
-		} else System.out.println("Нет такого subtask");
+			} else throw new NoSuchElementException();
+		} else throw new NoSuchElementException();
 	}
 
 	@Override
