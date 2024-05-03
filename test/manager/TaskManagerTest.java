@@ -7,6 +7,7 @@ import tasks.Epic;
 import tasks.Subtask;
 
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 
 
 public abstract class TaskManagerTest<T extends TaskManager> {
@@ -15,10 +16,12 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 	@Test
 	public void testStatusAndTimeEpic() {
 		Epic epic = taskManager.createEpic(new Epic("epic", "epicdesc"));
-		Subtask sub1 = taskManager.createSubTask(new Subtask("sub1", "subdesc1",
-				Status.NEW, LocalDateTime.now(), 30, 100));
+		Assertions.assertThrows(NoSuchElementException.class, () -> {
+			taskManager.createSubTask(new Subtask("sub1", "subdesc1",
+							Status.NEW, LocalDateTime.now(), 30, 100));
+				});
 		Assertions.assertEquals(0, taskManager.getSubTasks().size());
-		sub1 = taskManager.createSubTask(new Subtask("sub1", "subdesc1",
+		Subtask sub1 = taskManager.createSubTask(new Subtask("sub1", "subdesc1",
 				Status.NEW, LocalDateTime.now(), 30, epic.getId()));
 		Assertions.assertEquals(1, taskManager.getSubTasks().size());
 		Assertions.assertEquals(Status.NEW, taskManager.getEpicById(epic.getId()).getStatus());

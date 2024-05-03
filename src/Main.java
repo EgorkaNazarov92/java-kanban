@@ -27,13 +27,13 @@ public class Main {
 				case 1:
 					switch (taskType) {
 						case "task":
-							List<Task> tasks = taskManager.getsTasks();
+							List<Task> tasks = taskManager.getTasks();
 							for (Task task : tasks) {
 								System.out.println(task.toString());
 							}
 							break;
 						case "epic":
-							List<Epic> epics = taskManager.getsEpics();
+							List<Epic> epics = taskManager.getEpics();
 							for (Epic epic : epics) {
 								System.out.println(epic.toString());
 							}
